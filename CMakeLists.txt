@@ -45,10 +45,6 @@ else ()
 	endif ()
 endif ()
 
-if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-	add_definitions(-O3)
-endif()
-
 # Documentation
 option(LIBNABO_BUILD_DOXYGEN "Build libnabo doxygen documentation" ON)
 if (LIBNABO_BUILD_DOXYGEN)
@@ -63,42 +59,9 @@ else ()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 endif ()
 
-# Check the compiler version as we need C++11 support.
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-	# using Clang
-	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.3")
-		message(FATAL_ERROR "Your clang compiler has version ${CMAKE_CXX_COMPILER_VERSION}, while version 3.3 or later is required")
-	endif ()
-elseif ()
-	# using AppleClang
-	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.1")
-		message(FATAL_ERROR "Your XCode environment has version ${CMAKE_CXX_COMPILER_VERSION}, while version 5.1 or later is required")
-	endif ()
-elseif ()
-	# using GCC
-	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.8.2")
-		message(FATAL_ERROR "Your g++ compiler has version ${CMAKE_CXX_COMPILER_VERSION}, while version 4.8.2 or later is required")
-	endif ()
-elseif ()
-	# using MSVC
-	if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.0.23506")
-		message(FATAL_ERROR "Your Microsoft Visual C++ compiler has version ${CMAKE_CXX_COMPILER_VERSION}, while version MSVC 2015 Update 1+ is required")
-	endif ()
-endif ()
-
-# enable C++11 support.
-if (CMAKE_VERSION VERSION_LESS "3.1")
-	if (MSVC)
-		message(FATAL_ERROR "CMake version 3.1 or later is required to compile ${PROJECT_NAME} with Microsoft Visual C++")
-	endif ()
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		set (CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
-	else ()
-		set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
-	endif ()
-else ()
-	set (CMAKE_CXX_STANDARD 11)
-endif ()
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(GNUInstallDirs)
 
