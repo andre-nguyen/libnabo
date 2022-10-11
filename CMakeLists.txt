@@ -59,23 +59,13 @@ else ()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 endif ()
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 include(GNUInstallDirs)
 
-# eigen 2 or 3
-find_path(EIGEN_INCLUDE_DIR NAMES signature_of_eigen3_matrix_library
-  HINTS  ENV EIGEN3_INC_DIR
-         ENV EIGEN3_DIR
-  PATHS  Eigen/Core
-         /usr/local/include
-         /usr/include
-         /opt/local/include
-  PATH_SUFFIXES include eigen3 eigen2 eigen
-  DOC "Directory containing the Eigen3 header files"
-)
+find_package(Eigen3 3.3 REQUIRED)
 
 # optionally, opencl
 # OpenCL disabled as its code is not up-to-date with API
@@ -127,8 +117,11 @@ else ()
 endif ()
 set_target_properties(${LIB_NAME} PROPERTIES VERSION "${PROJECT_VERSION}" SOVERSION 1)
 
+target_link_libraries(${LIB_NAME} PUBLIC
+	Eigen3::Eigen
+)
+
 target_include_directories(${LIB_NAME} PUBLIC
-	${EIGEN_INCLUDE_DIR}
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   )
