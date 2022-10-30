@@ -1,0 +1,18 @@
+namespace Nabo
+{
+
+template <typename T>
+constexpr T kNaboVersion;
+
+template <>
+constexpr auto kNaboVersion<int> = @NABO_VERSION_INT@;
+
+template <>
+constexpr auto kNaboVersion<char[]> = "@CMAKE_PROJECT_VERSION@";
+
+constexpr int kNaboVersionMajor = @CMAKE_PROJECT_VERSION_MAJOR@;
+constexpr int kNaboVersionMinor = @CMAKE_PROJECT_VERSION_MINOR@;
+constexpr int kNaboVersionPatch = @CMAKE_PROJECT_VERSION_PATCH@;
+
+
+}  // namespace Nabo
