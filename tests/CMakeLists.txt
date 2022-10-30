@@ -3,7 +3,7 @@ include (CheckSymbolExists)
 include_directories(..)
 
 add_executable(knnvalidate knnvalidate.cpp)
-target_link_libraries(knnvalidate ${LIB_NAME} ${EXTRA_LIBS})
+target_link_libraries(knnvalidate ${LIB_NAME} Eigen3::Eigen ${EXTRA_LIBS})
 # disable as experimental is broken target_link_libraries(knnvalidate naboexperimental nabo  ${EXTRA_LIBS})
 
 add_test(validation-2D-exhaustive ${EXECUTABLE_OUTPUT_PATH}/knnvalidate ${CMAKE_CURRENT_SOURCE_DIR}/data/scan.2d.txt 10 2 -1)

@@ -88,15 +88,15 @@ if (USE_OPEN_MP)
 	if (OPENMP_FOUND)
 		target_compile_options(${LIB_NAME} PRIVATE -fopenmp ${OpenMP_CXX_FLAGS})
 		target_compile_definitions(${LIB_NAME} PRIVATE HAVE_OPENMP)
-		if (CMAKE_COMPILER_IS_GNUCC)
-			target_link_libraries(${LIB_NAME} PUBLIC gomp)
-		endif()
+		target_link_libraries(${LIB_NAME} PUBLIC OpenMP::OpenMP_CXX)
 	endif()
 endif ()
 
 
 # create doc before installing
 set(DOC_INSTALL_TARGET "share/doc/${PROJECT_NAME}/api" CACHE STRING "Target where to install doxygen documentation")
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/nabo_version.h
+        DESTINATION include/nabo)
 install(FILES nabo/nabo.h DESTINATION include/nabo)
 install(FILES nabo/third_party/any.hpp DESTINATION include/nabo/third_party)
 install(FILES README.md DESTINATION share/doc/${PROJECT_NAME})
@@ -122,7 +122,7 @@ if(LIBNABO_BUILD_PYTHON)
   add_subdirectory(python)
 endif()
 
-# Install catkin package.xml
+# Install package manifest for catkin/colcon
 install(FILES package.xml DESTINATION share/libnabo)
 
 #=============================================
@@ -148,7 +148,6 @@ install(TARGETS ${LIB_NAME} EXPORT ${PROJECT_NAME}-targets
     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})  # This is for Windows
-#install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 add_library(${PROJECT_NAME}::${LIB_NAME} ALIAS ${LIB_NAME})
 
