@@ -1,3 +1,5 @@
+include(CTest)
+
 include (CheckSymbolExists) 
 
 include_directories(..)
@@ -69,6 +71,21 @@ add_test(bench-3D-large-exhaustive-10000-K30 ${EXECUTABLE_OUTPUT_PATH}/knnbench 
 add_test(bench-3D-large-exhaustive-1000-K30 ${EXECUTABLE_OUTPUT_PATH}/knnbench ${CMAKE_CURRENT_SOURCE_DIR}/data/scan.3d.large.txt 30 -1000 3 5)
 add_test(bench-3D-large-exhaustive-100-K30 ${EXECUTABLE_OUTPUT_PATH}/knnbench ${CMAKE_CURRENT_SOURCE_DIR}/data/scan.3d.large.txt 30 -100 3 5)
 add_test(bench-3D-large-random-K30 ${EXECUTABLE_OUTPUT_PATH}/knnbench ${CMAKE_CURRENT_SOURCE_DIR}/data/scan.3d.large.txt 30 40000 3 5)
+
+set_tests_properties(
+	bench-3D-large-exhaustive-10000-K1
+	bench-3D-large-exhaustive-1000-K1
+	bench-3D-large-exhaustive-100-K1	
+	bench-3D-large-random-K1
+	bench-3D-large-exhaustive-10000-K10
+	bench-3D-large-exhaustive-1000-K10
+	bench-3D-large-exhaustive-100-K10
+	bench-3D-large-random-K20
+	bench-3D-large-exhaustive-10000-K30
+	bench-3D-large-exhaustive-1000-K30
+	bench-3D-large-exhaustive-100-K30
+	bench-3D-large-random-K30
+	PROPERTIES LABELS benchmark)
 
 add_executable(knnepsilon knnepsilon.cpp)
 target_link_libraries(knnepsilon ${LIB_NAME} ${EXTRA_LIBS})
